@@ -1,0 +1,134 @@
+---
+alwaysApply: true
+---
+
+# CampusConfess - Project Structure
+
+## Main Code Location
+**IMPORTANT:** The project root is `campusconfess/` and all code is directly in this directory (Expo Router structure).
+
+## Complete Directory Structure
+
+```
+campusconfess/
+├── app/                          # Expo Router - Screen files
+│   ├── (auth)/                   # Authentication flow group
+│   │   ├── campus-gate.tsx       # Campus selection & .edu verification
+│   │   ├── verify-code.tsx       # 6-digit verification code input
+│   │   └── _layout.tsx           # Auth layout wrapper
+│   │
+│   ├── (tabs)/                   # Main app (post-auth) group
+│   │   ├── feed.tsx              # Home feed with confessions
+│   │   ├── post.tsx              # Create new confession
+│   │   ├── profile.tsx           # User settings & preferences
+│   │   └── _layout.tsx           # Tab navigator layout
+│   │
+│   └── _layout.tsx               # Root layout (theme provider)
+│
+├── components/                   # Reusable UI Components
+│   ├── ui/                       # Base UI components
+│   └── PostCard.tsx              # Individual confession card
+│
+├── constants/                    # Design Tokens & Configuration
+│   ├── Colors.ts                 # Color palette (theme colors)
+│   ├── Typography.ts             # Font families, sizes, weights
+│   ├── Spacing.ts                # Margins, padding, border radius
+│   ├── Moderation.ts             # Content moderation keywords
+│   └── Config.ts                 # App config & feature flags
+│
+├── lib/                          # Core Business Logic
+│   ├── supabase.ts               # Supabase client initialization
+│   └── auth.ts                   # Authentication helpers
+│
+├── hooks/                        # Custom React Hooks
+│   └── useAuth.tsx               # Authentication state & actions
+│
+├── types/                        # TypeScript Type Definitions
+│   └── database.types.ts         # Supabase database types
+│
+├── supabase/                     # Backend (Supabase)
+│   └── functions/                # Edge Functions (Deno)
+│       ├── verify-campus-email/  # Send verification code
+│       └── ai-scan-content/      # AI moderation
+│
+├── .env.local                    # Environment variables (gitignored)
+├── app.json                      # Expo configuration
+├── package.json                  # Dependencies
+├── tsconfig.json                 # TypeScript configuration
+└── index.ts                      # Expo Router entry point
+```
+
+---
+
+## File Naming Conventions
+
+### Screens (in `app/` directory)
+- **lowercase-with-dashes.tsx** - Example: `campus-gate.tsx`, `verify-code.tsx`
+- **_layout.tsx** - Layout files for route groups
+
+### Components
+- **PascalCase.tsx** - Example: `PostCard.tsx`, `ReactionBar.tsx`
+
+### Hooks
+- **useCamelCase.tsx** - Example: `useAuth.tsx`, `usePosts.tsx`
+
+### Constants
+- **PascalCase.ts** - Example: `Colors.ts`, `Typography.ts`
+
+### Types
+- **camelCase.types.ts** - Example: `database.types.ts`, `app.types.ts`
+
+---
+
+## Import Path Aliases
+
+Configure in `tsconfig.json`:
+
+```typescript
+// ✅ Correct imports (with alias)
+import { Colors } from '@/constants/Colors';
+import { useAuth } from '@/hooks/useAuth';
+import { PostCard } from '@/components/PostCard';
+
+// ❌ Avoid relative imports
+import { Colors } from '../../../constants/Colors';
+```
+
+---
+
+## Critical Rules for This Project
+
+### 1. **Design Token Hierarchy** (ALWAYS follow)
+```
+Design Tokens (constants/) 
+    ↓
+Reusable Components (components/)
+    ↓
+Screens (app/)
+```
+
+### 2. **Never Bypass Design Tokens**
+- ❌ `<Text color="#1a1a1a">` - Hardcoded color
+- ✅ `<Text color={Colors.text.primary}>` - Using design token
+
+### 3. **Keep Screens Simple**
+- Screens should be **~200 lines max**
+- Move logic to **custom hooks**
+- Move reusable UI to **components**
+
+### 4. **Supabase Interactions**
+- All database queries go through `lib/supabase.ts`
+- Use Row Level Security (RLS) policies
+- Never expose service role key in client code
+
+### 5. **Image Uploads (React Native)**
+- ✅ Use `Uint8Array` (works on mobile)
+- ❌ Never use `Blob` (breaks on React Native)
+
+---
+
+**Project**: CampusConfess - Anonymous Campus Confession App  
+**Framework**: React Native (Expo Router)  
+**Backend**: Supabase (PostgreSQL + Auth + Storage)  
+**UI Library**: NativeBase v3+  
+**Platform**: iOS First (Android Phase 2)

@@ -1,0 +1,94 @@
+---
+alwaysApply: true
+---
+
+# 🎯 Pre-Coding Checklist - CHECK BEFORE YOU START!
+
+Before writing any code or attempting to fix any issue, **ALWAYS** go through this checklist:
+
+## ✅ Step 1: Check Documentation
+
+**Documentation files contain comprehensive guides for the entire project:**
+- `PROJECT_OVERVIEW.md` - Business overview and project summary
+- `TECHNICAL_DOCUMENTATION.md` - Architecture, database schema, API
+- `API_DOCUMENTATION.md` - Complete API reference
+- `DEPLOYMENT_GUIDE.md` - iOS deployment steps
+- `MODERATOR_GUIDELINES.md` - Content moderation rules
+
+### Common Tasks Documented:
+- 🔐 **Authentication**: Campus Gate flow, .edu verification
+- 📝 **Posts**: Anonymous posting, AI moderation, feed display
+- 👮 **Moderation**: Student moderators, report flow, content rules
+- 💳 **Payments**: Stripe integration for boosted posts
+- 🎨 **UI Design**: Design tokens, reusable components
+
+## ✅ Step 2: Understand The Codebase Structure
+
+```
+campusconfess/
+├── app/                          # Expo Router screens
+├── components/                   # Reusable UI components
+├── constants/                    # Design tokens & config
+├── lib/                          # Core logic
+├── hooks/                        # Custom React hooks
+└── types/                        # TypeScript types
+```
+
+**KEY RULES**: The app follows a **modular architecture**:
+- ✅ **Design Tokens** (`constants/`) define colors, fonts, spacing
+- ✅ **Components** use design tokens for consistent styling
+- ✅ **Screens** (`app/`) use components (keep screens ~200 lines)
+- ✅ **Business logic** goes in custom hooks (`hooks/`)
+- ✅ **Types** go in `types/` files
+
+## ✅ Step 3: Plan Before Coding
+
+**NEVER** jump straight to code. Instead:
+
+1. **State the problem clearly** (1-2 sentences)
+2. **Explain root cause** (1-2 sentences)
+3. **Outline solution** (bullet points)
+4. **List files to modify** (specific paths)
+5. **THEN** implement
+
+## ✅ Step 4: Add Console Logging for Debugging
+
+**ALWAYS add console logs to track code execution and identify issues.**
+
+### Console Log Categories (Use Emojis for Quick Scanning)
+
+| Emoji | Category | When to Use |
+|-------|----------|-------------|
+| 🔵 | **Info** | Function entry, normal flow |
+| ✅ | **Success** | Operation completed successfully |
+| ❌ | **Error** | Errors that break functionality |
+| ⚠️ | **Warning** | Potential issues, validation failures |
+| 📡 | **Network** | API calls, Supabase queries |
+| 🎬 | **Lifecycle** | Component mounting |
+| 👆 | **User Action** | Button clicks, form submits |
+| 🚨 | **Critical** | Unexpected errors, crashes |
+
+---
+
+# 🚫 What NOT To Do
+
+❌ **Don't** write code before checking documentation  
+❌ **Don't** guess at solutions - investigate first  
+❌ **Don't** over-complicate - use the SIMPLEST solution  
+❌ **Don't** create new patterns - follow existing architecture  
+❌ **Don't** skip comments - explain WHY you're doing something  
+
+---
+
+# ✅ What TO Do
+
+✅ **Do** check documentation FIRST  
+✅ **Do** explain your thinking in 2-3 paragraphs  
+✅ **Do** make minimal necessary changes  
+✅ **Do** follow the existing architecture  
+✅ **Do** add helpful comments  
+✅ **Do** test your fix  
+
+---
+
+**Always check the documentation before coding!**
