@@ -1,0 +1,30 @@
+{
+  "name": "campusconfess-root",
+  "version": "1.0.0",
+  "description": "CampusConfess - Anonymous campus confession app",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd campusconfess && npm start",
+    "ios": "cd campusconfess && npm run ios",
+    "android": "cd campusconfess && npm run android",
+    "install:app": "cd campusconfess && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aemd2/CampusConfess.git"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "supabase",
+    "confession",
+    "campus",
+    "anonymous"
+  ],
+  "author": "CampusConfess Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aemd2/CampusConfess/issues"
+  },
+  "homepage": "https://github.com/aemd2/CampusConfess#readme"
+}
