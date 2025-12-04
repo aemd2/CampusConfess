@@ -1,0 +1,81 @@
+---
+alwaysApply: true
+---
+# 🚨 CRITICAL: Project Root Directory
+
+**⚠️ READ THIS FIRST - BEFORE DOING ANYTHING:**
+
+## Main Project Root
+
+```
+Workspace: c:\code\Europe Socail app\
+           ↓
+Project Root: campusconfess/  ← ALL CODE IS HERE
+```
+
+### Absolute Rule
+
+**ALWAYS work inside the `campusconfess/` directory.**
+
+This is the ONLY location where project code exists.
+
+### Directory Structure
+
+```
+c:\code\Europe Socail app\          ← Workspace folder (parent)
+└── campusconfess/                  ← PROJECT ROOT (work here!)
+    ├── app/                        ← Expo Router screens
+    ├── components/                 ← UI components
+    ├── constants/                  ← Design tokens
+    ├── hooks/                      ← Custom hooks
+    ├── lib/                        ← Core logic
+    ├── types/                      ← TypeScript types
+    ├── assets/                     ← Images, fonts
+    ├── supabase/                   ← Backend functions
+    ├── package.json                ← Dependencies
+    ├── app.json                    ← Expo config
+    └── tsconfig.json               ← TypeScript config
+```
+
+### When Creating/Modifying Files
+
+**✅ CORRECT paths:**
+- `campusconfess/app/feed.tsx`
+- `campusconfess/components/PostCard.tsx`
+- `campusconfess/lib/supabase.ts`
+
+**❌ WRONG paths (outside project root):**
+- `app/feed.tsx` ← Missing campusconfess/
+- `components/PostCard.tsx` ← Missing campusconfess/
+
+### Running Commands
+
+**Always run terminal commands from the project root:**
+
+```bash
+# Navigate to project root first
+cd campusconfess
+
+# Then run commands
+npm install
+npm start
+npm run ios
+```
+
+### Import Paths
+
+All imports should be relative to the `campusconfess/` directory:
+
+```typescript
+// ✅ CORRECT (using @ alias configured in tsconfig.json)
+import { Colors } from '@/constants/Colors';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
+
+// ❌ WRONG (don't go outside campusconfess/)
+import { Colors } from '../../constants/Colors';
+```
+
+---
+
+**Remember: If you're not inside `campusconfess/`, you're in the wrong place!**

@@ -1,0 +1,57 @@
+---
+alwaysApply: true
+---
+
+# 🔌 Supabase MCP Connectivity Check - MANDATORY AT START
+
+**⚠️ CRITICAL: This rule MUST be executed at the beginning of EVERY chat session.**
+
+## 📋 What This Rule Does
+
+At the start of every chat, you MUST verify that the Supabase MCP (Model Context Protocol) server is running and accessible.
+
+## ✅ Step 1: Check Supabase MCP Connection (FIRST THING EVERY CHAT)
+
+**At the very beginning of every new chat session, you MUST:**
+
+1. **Attempt to list Supabase projects** using the MCP tool
+2. **Verify the connection is working**
+3. **If successful**: Proceed normally with the user's request
+4. **If failed**: STOP immediately and inform the user
+
+### How to Check:
+
+```
+Use: mcp_supabase_list_projects
+```
+
+## 🚨 If Supabase MCP Connection Fails
+
+**IF the connection check fails, you MUST:**
+
+1. **STOP all other operations immediately**
+2. **Do NOT attempt to write code or make changes**
+3. **Display error message to the user**
+
+## ✅ If Connection Succeeds
+
+If the Supabase MCP connection is successful:
+
+1. ✅ **Silently note** that the connection is working
+2. ✅ **Proceed** with the user's request
+3. ✅ **You can now use all Supabase MCP tools** as needed
+
+## 📚 Common Supabase MCP Commands
+
+Once connection is verified, you can use these tools:
+
+- `mcp_supabase_list_projects` - List all projects
+- `mcp_supabase_list_tables` - View tables in database
+- `mcp_supabase_execute_sql` - Run SQL queries
+- `mcp_supabase_get_advisors` - Check security/performance
+- `mcp_supabase_list_migrations` - View migration history
+- `mcp_supabase_apply_migration` - Create new migrations
+
+---
+
+**This check is non-negotiable. Always verify MCP connectivity first.**
