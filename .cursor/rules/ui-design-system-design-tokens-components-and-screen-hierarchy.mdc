@@ -1,0 +1,152 @@
+---
+alwaysApply: true
+---
+
+# 🎨 UI Design System - CampusConfess
+
+## Architecture Hierarchy (ALWAYS Follow This Order)
+
+```
+┌──────────────────────────────────────┐
+│  1. DESIGN TOKENS (constants/)      │  ← Foundation Layer
+│     - Colors.ts                      │
+│     - Typography.ts                  │
+│     - Spacing.ts                     │
+└────────────┬─────────────────────────┘
+             │ Used by
+             ↓
+┌──────────────────────────────────────┐
+│  2. BASE COMPONENTS (components/ui/) │  ← Building Blocks
+│     - Button.tsx                     │
+│     - Card.tsx                       │
+│     - Input.tsx                      │
+└────────────┬─────────────────────────┘
+             │ Composed into
+             ↓
+┌──────────────────────────────────────┐
+│  3. FEATURE COMPONENTS               │  ← App-Specific
+│     (components/)                    │
+│     - PostCard.tsx                   │
+│     - ReactionBar.tsx                │
+│     - CommentThread.tsx              │
+└────────────┬─────────────────────────┘
+             │ Assembled in
+             ↓
+┌──────────────────────────────────────┐
+│  4. SCREENS (app/)                   │  ← Final Pages
+│     - feed.tsx                       │
+│     - post.tsx                       │
+│     - campus-gate.tsx                │
+└──────────────────────────────────────┘
+```
+
+---
+
+## Design Tokens (Foundation Layer)
+
+**Location**: `constants/` directory
+
+### Colors.ts
+```typescript
+export const Colors = {
+  primary: {
+    main: '#6366F1',        // Indigo-500
+    light: '#818CF8',       // Indigo-400
+    dark: '#4F46E5',        // Indigo-600
+    contrast: '#FFFFFF',
+  },
+  background: {
+    primary: '#0F172A',     // Slate-900
+    secondary: '#1E293B',   // Slate-800
+  },
+  text: {
+    primary: '#F8FAFC',     // Slate-50
+    secondary: '#CBD5E1',   // Slate-300
+  },
+  // ... more colors
+} as const;
+```
+
+### Typography.ts
+```typescript
+export const Typography = {
+  sizes: {
+    xs: 12,
+    sm: 14,
+    base: 16,
+    lg: 18,
+    xl: 20,
+    '2xl': 24,
+    '3xl': 30,
+  },
+  weights: {
+    regular: '400',
+    medium: '500',
+    semibold: '600',
+    bold: '700',
+  },
+} as const;
+```
+
+### Spacing.ts
+```typescript
+export const Spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+  radius: {
+    sm: 4,
+    md: 8,
+    lg: 12,
+    full: 9999,
+  },
+} as const;
+```
+
+---
+
+## Critical Rules (ALWAYS Follow)
+
+### ❌ NEVER Do This
+
+```typescript
+// ❌ Hardcoded colors
+<Text color="#F8FAFC">Text</Text>
+<Box bg="#1E293B">Content</Box>
+
+// ❌ Hardcoded spacing
+<Box p={16} m={8}>Content</Box>
+
+// ❌ Hardcoded font sizes
+<Text fontSize={18} fontWeight="bold">Title</Text>
+```
+
+### ✅ ALWAYS Do This
+
+```typescript
+// ✅ Use design tokens
+<Text color={Colors.text.primary}>Text</Text>
+<Box bg={Colors.card.background}>Content</Box>
+
+// ✅ Use spacing tokens
+<Box p={Spacing.md} m={Spacing.sm}>Content</Box>
+
+// ✅ Use typography tokens
+<Text {...TextStyles.h1} color={Colors.text.primary}>Title</Text>
+```
+
+---
+
+## Remember
+
+1. **Design Tokens First** - Always import Colors, Spacing, Typography
+2. **Reuse Components** - Don't recreate buttons, cards, inputs
+3. **Keep Screens Simple** - Screens should just assemble components
+4. **No Hardcoded Values** - Always use tokens (Colors.*, Spacing.*, Typography.*)
+5. **Follow the Hierarchy** - Tokens → Base Components → Feature Components → Screens
+
+---
+
+**This design system ensures CampusConfess has a consistent, maintainable, and scalable UI.**

@@ -1,0 +1,112 @@
+---
+alwaysApply: true
+---
+
+# React Native Media Upload Rules - MANDATORY FOR ALL MOBILE DEVELOPMENT
+
+## 🚨 CRITICAL RULE: ALWAYS Use Uint8Array for React Native File Uploads
+
+When developing for React Native (iOS/Android), **NEVER use Blob for file uploads**. Always use `Uint8Array`.
+
+### ✅ THE CORRECT WAY (ALWAYS USE THIS):
+
+```typescript
+// Step 1: Import Supabase and check authentication
+const { supabase } = await import('../lib/supabase');
+const { data: { session } } = await supabase.auth.getSession();
+if (!session) {
+  throw new Error('Authentication required');
+}
+
+// Step 2: Convert file to Uint8Array (React Native compatible)
+const response = await fetch(fileUri);
+const arrayBuffer = await response.arrayBuffer();
+const uint8Array = new Uint8Array(arrayBuffer);
+
+// Step 3: Validate file size
+const fileSizeInMB = arrayBuffer.byteLength / (1024 * 1024);
+if (fileSizeInMB > maxSizeMB) {
+  throw new Error(`File too large: ${fileSizeInMB.toFixed(2)}MB`);
+}
+
+// Step 4: Generate unique file path
+const timestamp = Date.now();
+const randomId = Math.random().toString(36).substring(2, 9);
+const filePath = `${userId}/${timestamp}-${randomId}.${extension}`;
+
+// Step 5: Upload Uint8Array directly to Supabase
+const { data, error } = await supabase.storage
+  .from('bucket-name')
+  .upload(filePath, uint8Array, {
+    contentType: mimeType,
+    cacheControl: '3600',
+    upsert: false,
+  });
+
+if (error) throw error;
+
+// Step 6: Get public URL
+const { data: urlData } = supabase.storage
+  .from('bucket-name')
+  .getPublicUrl(filePath);
+
+return urlData.publicUrl;
+```
+
+### ❌ WRONG WAYS (NEVER DO THIS IN REACT NATIVE):
+
+```typescript
+// ❌ WRONG #1 - Using blob() method
+const blob = await response.blob();
+await supabase.storage.upload(path, blob);
+
+// ❌ WRONG #2 - Creating Blob from ArrayBuffer
+const arrayBuffer = await response.arrayBuffer();
+const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+// ERROR: "Creating blobs from ArrayBuffer not supported"
+```
+
+---
+
+## 📚 Why Uint8Array Works and Blob Doesn't
+
+| Method | Web Browser | React Native |
+|--------|-------------|---------------|
+| `response.blob()` | ✅ Works | ❌ Unreliable/Fails |
+| `new Blob([arrayBuffer])` | ✅ Works | ❌ NOT SUPPORTED |
+| `response.arrayBuffer()` | ✅ Works | ✅ Works |
+| `new Uint8Array(arrayBuffer)` | ✅ Works | ✅ Works |
+| Upload `Uint8Array` to Supabase | ✅ Works | ✅ Works |
+
+**Conclusion:** `Uint8Array` is the universal solution that works everywhere!
+
+---
+
+## 🎓 Key Rules to Remember
+
+1. ✅ **ALWAYS** use `arrayBuffer()` and `Uint8Array` for React Native
+2. ✅ **ALWAYS** check authentication before upload
+3. ✅ **ALWAYS** validate file size before upload
+4. ✅ **ALWAYS** generate unique file paths (userId + timestamp + random)
+5. ✅ **ALWAYS** upload `Uint8Array` directly to Supabase Storage
+
+6. ❌ **NEVER** use `response.blob()` in React Native
+7. ❌ **NEVER** try to create `new Blob([arrayBuffer])` in React Native
+8. ❌ **NEVER** skip authentication checks
+9. ❌ **NEVER** reuse filenames (always generate unique ones)
+
+---
+
+## 📊 File Size Limits (Recommended)
+
+```typescript
+const FILE_SIZE_LIMITS = {
+  PROFILE_IMAGE: 5,    // 5MB
+  POST_IMAGE: 10,      // 10MB
+  VIDEO: 20,           // 20MB
+};
+```
+
+---
+
+**Remember:** When implementing ANY media upload in React Native, ALWAYS follow this Uint8Array pattern. No exceptions! 🚀
